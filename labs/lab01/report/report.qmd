@@ -96,7 +96,7 @@ master, а на основе develop. Когда работа над функц�
 
 Начинаю с подготовки и настройки рабочего пространства (установка git) ([рис. @fig-001]).
 
-![git](image/1.jpg){#fig-001 width=70%}
+![git1](image/1.jpg){#fig-001 width=70%}
 
 Настраиваю git configs([рис. @fig-002]).
 
@@ -110,7 +110,7 @@ master, а на основе develop. Когда работа над функц�
 
 ![gitignores](image/4.jpg){#fig-004 width=70%}
 
-![gitignores](image/5.jpg){#fig-005 width=70%}
+![gitignores2](image/5.jpg){#fig-005 width=70%}
 
 Далее работаю с настройкой ключей ssh-keygen ([рис. @fig-006]).
 
@@ -130,27 +130,27 @@ master, а на основе develop. Когда работа над функц�
 
 Устанавливаю необходимые параметры для ключа: 4096, rsa, key does not expire at all (0) ([рис. @fig-010]) ([рис. @fig-011])..
 
-![gpg](image/10.jpg){#fig-010 width=70%}
+![gpg1](image/10.jpg){#fig-010 width=70%}
 
-![gpg](image/11.jpg){#fig-011 width=70%}
+![gpg2](image/11.jpg){#fig-011 width=70%}
 
 Затем копирую ключ и прикрепляю новый gpg ключ на свой профиль в GitHub ([рис. @fig-012])  ([рис. @fig-013])..
 
-![gpg](image/12.jpg){#fig-012 width=70%}
+![gpg3](image/12.jpg){#fig-012 width=70%}
 
-![gpg](image/13.jpg){#fig-013 width=70%}
+![gpg4](image/13.jpg){#fig-013 width=70%}
 
 Настраиваю configs ([рис. @fig-014]).
 
-![configs](image/14.jpg){#fig-014 width=70%}
+![configs2](image/14.jpg){#fig-014 width=70%}
 
 Теперь необходимо установить и распаковать gitflow ([рис. @fig-015]) ([рис. @fig-016]) ([рис. @fig-017]).
 
-![gitflow](image/15.jpg){#fig-015 width=70%}
+![gitflow1](image/15.jpg){#fig-015 width=70%}
 
-![gitflow](image/16.jpg){#fig-016 width=70%}
+![gitflow2](image/16.jpg){#fig-016 width=70%}
 
-![gitflow](image/17.jpg){#fig-017 width=70%}
+![gitflow3](image/17.jpg){#fig-017 width=70%}
 
 Настройка branches ([рис. @fig-018]).
 
@@ -158,9 +158,9 @@ master, а на основе develop. Когда работа над функц�
 
 Checking the branches ([рис. @fig-019]) ([рис. @fig-020]).
 
-![branches](image/19.jpg){#fig-019 width=70%}
+![branches2](image/19.jpg){#fig-019 width=70%}
 
-![branches](image/20.jpg){#fig-020 width=70%}
+![branches3](image/20.jpg){#fig-020 width=70%}
 
 Так же необходимо предустановить gh ([рис. @fig-021]).
 
@@ -174,9 +174,9 @@ Checking the branches ([рис. @fig-019]) ([рис. @fig-020]).
 
 ![nodejs](image/23.jpg){#fig-023 width=70%}
 
-![nodejs](image/24.jpg){#fig-024 width=70%}
+![nodejs2](image/24.jpg){#fig-024 width=70%}
 
-![nodejs](image/25.jpg){#fig-025 width=70%}
+![nodejs3](image/25.jpg){#fig-025 width=70%}
 
 Устанавливаю libxcrip ([рис. @fig-026]).
 
@@ -186,27 +186,89 @@ Checking the branches ([рис. @fig-019]) ([рис. @fig-020]).
 
 ![quarto](image/27.jpg){#fig-027 width=70%}
 
+Добавила в преамбуле preamble.tex пакет juliamono ([рис. @fig-028]) ([рис. @fig-029]).
 
+![juliamono](image/28.jpg){#fig-028 width=70%}
 
+![juliamono2](image/29.jpg){#fig-029 width=70%}
 
-![git](image/28.jpg){#fig-028 width=70%}
+В каталоге отчёта в файл _quarto.yml включила поддержку кода julia. Добавила после описания проекта ([рис. @fig-030]) ([рис. @fig-031]) ([рис. @fig-032]).
 
+![quarto2](image/30.jpg){#fig-030 width=70%}
 
-![git](image/29.jpg){#fig-029 width=70%}
+![quarto3](image/31.jpg){#fig-031 width=70%}
 
+![quarto4](image/32.jpg){#fig-032 width=70%}
 
+Устанавливаю jupiter ([рис. @fig-033]).
 
-![git](image/30.jpg){#fig-030 width=70%}
+![jupiter](image/33.jpg){#fig-033 width=70%}
 
+Через терминал вывожу jupiter в mozila firefox ([рис. @fig-034]).
 
+![jupiter2](image/34.jpg){#fig-034 width=70%}
+
+Генерация файла с экспоненциальным ростом через julia ([рис. @fig-035]).
+
+![exponential](image/35.jpg){#fig-035 width=70%}
+
+Презентация экспоненциального роста в папке plots ([рис. @fig-036]).
+
+![juliaplots](image/36.jpg){#fig-036 width=70%}
+
+Вывод файла exponential ([рис. @fig-037]) ([рис. @fig-038]) ([рис. @fig-039]) ([рис. @fig-040]).
+
+![result](image/37.jpg){#fig-037 width=70%}
+
+![results](image/38.jpg){#fig-038 width=70%}
+
+![results1](image/39.jpg){#fig-039 width=70%}
+
+![result2](image/40.jpg){#fig-040 width=70%}
+
+Создаю новый файл для описания экспоненциального роста ([рис. @fig-041]) ([рис. @fig-042]).
+
+![exp](image/41.jpg){#fig-041 width=70%}
+
+![exp2](image/42.jpg){#fig-042 width=70%}
+
+Устанавливаю пакеты DrWatson и другие ([рис. @fig-043]) ([рис. @fig-044]) ([рис. @fig-045])([рис. @fig-046]) .
+
+![drwatson](image/43.jpg){#fig-043 width=70%}
+
+![packets](image/44.jpg){#fig-044 width=70%}
+
+![packet](image/45.jpg){#fig-045 width=70%}
+
+![doneinstall](image/46.jpg){#fig-046 width=70%}
+
+Работа с Julia ([рис. @fig-047]).
+
+![julia1](image/47.jpg){#fig-047 width=70%}
+
+Установка пакетов для Julia ([рис. @fig-048]) ([рис. @fig-049]) ([рис. @fig-050]) ([рис. @fig-051]).
+
+![juliapackets](image/48.jpg){#fig-048 width=70%}
+
+![juliapackwt](image/49.jpg){#fig-049 width=70%}
+
+![juliapac](image/50.jpg){#fig-050 width=70%}
+
+![error](image/51.jpg){#fig-051 width=70%}
+
+Знакомство с julia через терминал ([рис. @fig-052]).
+
+![acquaintancejulia](image/52.jpg){#fig-052 width=70%}
+
+Загрузка Julia вручную ([рис. @fig-053]).
+
+![installjulia](image/53.jpg){#fig-053 width=70%}
 
 # Выводы
 
 В ходе лабораторной работы я приобрела практические навыки работы с системой управления версиями Git, языком программирования Julia. 
 
 # Список литературы{.unnumbered}
-
-{{< include ../project/markdown/01_exponential_growth/01_exponential_growth.qmd >}}
 
 ::: {#refs}
 :::
