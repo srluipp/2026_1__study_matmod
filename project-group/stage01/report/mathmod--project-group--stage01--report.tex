@@ -1,0 +1,611 @@
+% Options for packages loaded elsewhere
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+  english,
+  russian,
+  12pt,
+  a4paper,
+  DIV=11,
+  numbers=noendperiod]{scrreprt}
+\usepackage{xcolor}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{5}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage{setspace}
+% Make \paragraph and \subparagraph free-standing
+\makeatletter
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}{
+    \@ifstar
+      \xxxParagraphStar
+      \xxxParagraphNoStar
+  }
+  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
+  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}{
+    \@ifstar
+      \xxxSubParagraphStar
+      \xxxSubParagraphNoStar
+  }
+  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
+  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+\makeatother
+
+
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+
+
+
+\ifLuaTeX
+\usepackage[bidi=basic,provide=*]{babel}
+\else
+\usepackage[bidi=default,provide=*]{babel}
+\fi
+% get rid of language-specific shorthands (see #6817):
+\let\LanguageShortHands\languageshorthands
+\def\languageshorthands#1{}
+
+
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
+
+ 
+\usepackage[style=gost-numeric,backend=biber,langhook=extras,autolang=other*]{biblatex}
+\addbibresource{bib/cite.bib}
+
+\usepackage[]{csquotes}
+
+\usepackage{indentfirst}
+\usepackage{float}
+\floatplacement{figure}{H}
+\IfFileExists{plex-otf.sty}{
+  %% Full TeXlive
+  \usepackage[
+    % math,
+    RM={Scale=0.94},SS={Scale=0.94},SScon={Scale=0.94},TT={Scale=MatchLowercase,FakeStretch=0.9},
+    DefaultFeatures={Ligatures=Common}
+  ]{plex-otf}
+  % \usepackage[Scale=MatchUppercase]{juliamono}
+}{
+  %% TinyTeX
+  \usepackage{libertine}
+}
+\KOMAoption{captions}{tableheading}
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Содержание}
+\else
+  \newcommand\contentsname{Содержание}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{Список иллюстраций}
+\else
+  \newcommand\listfigurename{Список иллюстраций}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{Список таблиц}
+\else
+  \newcommand\listtablename{Список таблиц}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Рисунок}
+\else
+  \newcommand\figurename{Рисунок}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Таблица}
+\else
+  \newcommand\tablename{Таблица}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Список}
+\newcommand*\listoflistings{\listof{codelisting}{Листинги}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Проектная работа. Образование планетной системы},
+  pdfauthor={Арбатова Варвара Петровна, Карпова Есения Алексеевна, Дагделен Зейнап Реджеповна, Бюгданюк Анна, Люпп Софья Романовна},
+  pdflang={ru-RU},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+
+\title{Проектная работа. Образование планетной системы}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{Первый этап}
+\author{Арбатова Варвара Петровна, Карпова Есения Алексеевна, Дагделен
+Зейнап Реджеповна, Бюгданюк Анна, Люпп Софья Романовна}
+\date{}
+\begin{document}
+\maketitle
+
+\renewcommand*\contentsname{Содержание}
+{
+\setcounter{tocdepth}{1}
+\tableofcontents
+}
+\listoffigures
+\listoftables
+
+\setstretch{1.5}
+\chapter{Цель
+работы}\label{ux446ux435ux43bux44c-ux440ux430ux431ux43eux442ux44b}
+
+Цель данной работы --- численное моделирование образования планетной
+системы из газопылевого облака с использованием методов молекулярной
+динамики, гравитационного взаимодействия, сил трения и слипания частиц.
+
+\chapter{Задание}\label{ux437ux430ux434ux430ux43dux438ux435}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Напиcать программу, моделирующую движение N точек в плоскости,
+  испытывающих притяжение к центральной неподвижной точке, не
+  взаимодействующих между собой и двигающихся по орбитам с первой
+  космической скоростью.
+\item
+  Ввести гравитационное взаимодействие между частицами. Убрать
+  неподвижную центральную точку. Добавить отталкивание между частицами
+  при их сближении на расстояние меньше суммы их радиусов. Вывести на
+  экран кинетическую и потенциальную энергии. Сделать импульс системы
+  равным 0. Добавить силы трения между частицами.
+\item
+  *Включить в модель угловые скорости вращения вокруг собственной оси
+  каждой частицы.
+\item
+  Смоделировать трехмерный случай N взаимодействующих частиц с
+  отталкиванием без трения. Вывести на экран проекции движения частиц в
+  плоскостях XY , Y Z, XZ. Нарисовать зависимость кинетической,
+  потенциальной и полной энергии от времени.
+\item
+  *Ввести в трехмерном случае слипание частиц после того, как они
+  приблизятся на малое расстояние. При образовании б´ольшей частицы
+  должны сохраняться суммарные масса и импульс системы.
+\item
+  Ввести силы трения. Объяснить вид кинетической и потенциальной
+  энергии.
+\item
+  Ввести частицы двух сортов с разной массой и соответствующим массе
+  радиусом. Добавить силу трения между частицами. Вывести на экран
+  график энергии, переходящей в тепло. Объяснить график полной энергии.
+  Ввести частицы с массами, задаваемыми случайным образом, и
+  соответствующими радиусами.
+\end{enumerate}
+
+\chapter{Образование планетной
+системы}\label{ux43eux431ux440ux430ux437ux43eux432ux430ux43dux438ux435-ux43fux43bux430ux43dux435ux442ux43dux43eux439-ux441ux438ux441ux442ux435ux43cux44b}
+
+\section{1. Введение}\label{ux432ux432ux435ux434ux435ux43dux438ux435}
+
+Формирование планетных систем --- один из ключевых процессов эволюции
+Вселенной. Согласно современным представлениям, звёзды и их планетные
+системы образуются в результате гравитационного сжатия межзвёздных
+газопылевых облаков. В процессе сжатия облако фрагментируется,
+формируются протозвёзды и протопланетные диски, в которых впоследствии
+образуются планеты.
+
+\subsection{2.1. Происхождение звёзд и звёздных
+систем}\label{ux43fux440ux43eux438ux441ux445ux43eux436ux434ux435ux43dux438ux435-ux437ux432ux451ux437ux434-ux438-ux437ux432ux451ux437ux434ux43dux44bux445-ux441ux438ux441ux442ux435ux43c}
+
+Согласно теории Фридмана, Леметра, Гамова возникновение Вселенной
+произошло из точки в результате Большого взрыва примерно 13,7 млрд. лет
+назад (рис.~\ref{fig-001}).
+
+\begin{figure}
+
+\centering{
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/1.png}
+
+}
+
+\caption{\label{fig-001}Большой взрыв}
+
+\end{figure}%
+
+В этот момент времени, который берется за начало отсчета, Вселенная
+имела очень малый размер и экстремально высокие плотность и температуру.
+С тех пор Вселенная непрерывно расширяется и остывает. В процессе
+расширения и охлаждения образовались элементарные частицы, затем атомы,
+и под действием гравитационной неустойчивости начали формироваться
+первые структуры: протоскопления, протогалактики, галактики и, наконец,
+звёзды.
+
+Звёзды, превышающие массу Солнца в десятки раз, быстро эволюционируют и
+взрываются как сверхновые, выбрасывая тяжёлые элементы, из которых
+впоследствии формируются новые звёзды и планеты .
+
+\subsection{2.2. Образование Солнечной
+системы}\label{ux43eux431ux440ux430ux437ux43eux432ux430ux43dux438ux435-ux441ux43eux43bux43dux435ux447ux43dux43eux439-ux441ux438ux441ux442ux435ux43cux44b}
+
+Согласно теории образования Солнечной системы, предложенной Отто Шмидтом
+(СССР, 1944 год), газопылевое облако, из которого позднее образовались
+планеты и Солнце нашей Солнечной системы вращалось, и по мере
+гравитационного сжатия газопылевого облака расстояние всех его частей от
+оси вращения сокращалось и скорость вращения сгущающегося облака
+увеличивалась. В плоскости, перпендикулярной оси вращения, сжатие
+происходило медленнее, и потому облако, бывшее изначально шаровидным,
+становилось все более плоским. Из-за гравитационной неустойчивости на
+периферии формирующегося диска отделилось кольцо вещества. Оставшееся
+облако продолжало сжиматься и вращаться еще быстрее. Затем от него
+отделилось новое кольцо вещества, и кольца вещества сгустились в планеты
+(\textbf{?@fig-002})
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/2.png}.
+
+Зависимость скорости обращения планет от расстояния до Солнца
+соответствует третьему закону Кеплера - скорость убывает обратно
+пропорционально корню квадратному из расстояния до центра:
+
+\[
+v \sim \frac{1}{\sqrt{r}}
+\]
+
+где \(r\) --- расстояние до центра.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section{3. Математическая
+модель}\label{ux43cux430ux442ux435ux43cux430ux442ux438ux447ux435ux441ux43aux430ux44f-ux43cux43eux434ux435ux43bux44c}
+
+\subsection{3.1. Гравитационное
+взаимодействие}\label{ux433ux440ux430ux432ux438ux442ux430ux446ux438ux43eux43dux43dux43eux435-ux432ux437ux430ux438ux43cux43eux434ux435ux439ux441ux442ux432ux438ux435}
+
+Проведем моделирование одного из этапов эволюции Вселенной ---
+образование некой «солнечной» системы из межзвездного газа. Так как
+число моделируемых частиц весьма ограничено, то можно сказать, что в
+этой модели планеты образуются из уже сформировавшихся газопылевых
+уплотнений, которыми и являются задаваемые частицы.
+
+Потенциальная энергия гравитационного взаимодействия системы частиц
+описывается формулой:
+
+\[
+U_i = -\sum_{j \neq i} \frac{\gamma m_i m_j}{r_{ij}}, \quad U = \frac{1}{2} \sum_i U_i
+\]
+
+где \(\gamma\) --- гравитационная постоянная, \(m_i\), \(m_j\) --- массы
+частиц, \(r_{ij}\) --- расстояние между ними.
+
+Полная потенциальная энергия системы частиц равна:
+
+\[
+U = \frac{1}{2} \sum_{i} U_{i} 
+\]
+
+Множитель \$\frac{1}{2}\$ необходим, так как энергия взаимодействия
+между каждой парой частиц учитывается в этой сумме дважды.
+
+Гравитация --- дальнодействующая сила, что требует учёта взаимодействий
+между всеми парами частиц. Поэтому нельзя игнорировать взаимодействие
+между удаленными частицами. Это приводит к сложности \(O(N^2)\), что
+ограничивает размер моделируемых систем, даже на современных
+компьютерах.
+
+\subsection{3.2. Начальные
+условия}\label{ux43dux430ux447ux430ux43bux44cux43dux44bux435-ux443ux441ux43bux43eux432ux438ux44f}
+
+Распределение частиц в плоскости в начальный момент времени задается
+случайным образом, при достаточно большом количестве частиц
+распределение будет равномерным в плоскости диска, если для двумерного
+случая модуль радиус-вектора выбирать как r = r0*√random:
+
+\begin{itemize}
+\tightlist
+\item
+  радиус: \(r = r_0 \cdot \text{random}\)
+\item
+  угол: \(\alpha = 2\pi \cdot \text{random}\)
+\item
+  начальная скорость, которая находится по третьему закону Кеплера:
+\end{itemize}
+
+\[
+v_x = -y \cdot \omega_0 \left( \frac{r_0}{r} \right)^{3/2}, \quad v_y = x \cdot \omega_0 \left( \frac{r_0}{r} \right)^{3/2}, \quad v_z = 0
+\]
+
+где \(\omega_0\) --- угловая скорость на расстоянии \(r_0\), а \(r_0\)
+-- радиус газопылевого диска.
+
+\subsection{3.3. Силы отталкивания и
+трения}\label{ux441ux438ux43bux44b-ux43eux442ux442ux430ux43bux43aux438ux432ux430ux43dux438ux44f-ux438-ux442ux440ux435ux43dux438ux44f}
+
+Для частиц, у которых расстояние между центрами меньше суммы их
+радиусов, необходимо ввести силы трения и отталкивания
+(\textbf{?@fig-003})
+
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{image/3.png}.
+
+Это делается для удобства написания программы, так как в реальности при
+столкновении двух газопылевых облаков произойдет их слипание и при
+слишком больших скоростях возможно их разбиение на более мелкие.
+
+\subsubsection{Силу отталкивания можно
+взять:}\label{ux441ux438ux43bux443-ux43eux442ux442ux430ux43bux43aux438ux432ux430ux43dux438ux44f-ux43cux43eux436ux43dux43e-ux432ux437ux44fux442ux44c}
+
+\[
+F^r(b) = k \left( \left( \frac{a}{b} \right)^8 - 1 \right)
+\]
+
+где \(a = R_i + R_j\) --- сумма радиусов частиц \(i\) и \(j\), и
+\(b = |\mathbf{r}_{i,j}| = |\mathbf{r}_i - \mathbf{r}_j|\) --- модуль
+радиус-вектора взаимодействия.
+
+\subsubsection{Сила
+трения}\label{ux441ux438ux43bux430-ux442ux440ux435ux43dux438ux44f}
+
+Сила трения перпендикулярна радиус-вектору взаимодействия b и направлена
+против движения частиц относительно друг друга. Единичный вектор вдоль
+силы трения для двумерной модели равен:
+
+\[
+n = \frac{(-b_y, b_x)}{\sqrt{b_x^2 + b_y^2}}
+\]
+
+Относительная скорость поверхностей частиц, перпендикулярная радиусу:
+
+\[
+W_\perp = (v_i - v_j) \cdot n - \omega_i R_i - \omega_j R_j
+\]
+
+где \(\omega_i\) и \(\omega_j\) --- угловые скорости вращения частиц
+\(i\) и \(j\) и \(W = \mathbf{v}_i - \mathbf{v}_j\) - относительная
+скорость двух взаимодействующих частиц.
+
+В простейшем приближении коэффициент трения определяется как:
+
+\[
+\mu = \beta W_{\perp} 
+\]
+
+где: - \&\beta\$ --- постоянный коэффициент, - \(W_{\perp}\) ---
+перпендикулярная компонента относительной скорости \(W\).
+
+Модуль силы трения равен:
+
+\[
+F^f = \mu F^r(b), \quad \mu = \beta W_\perp
+\]
+
+где: - \(\mu\) --- коэффициент трения, зависящий от скорости
+\(W_{\perp}\), - \(F_{r}(b)\) --- радиальная сила взаимодействия,
+зависящая от расстояния \(b\).
+
+И тогда вектор силы трения:
+
+\[
+\mathbf{F}_f = \beta W_\perp F^r(b) \mathbf{n}
+\]
+
+\subsection{3.4. Вращение
+частиц}\label{ux432ux440ux430ux449ux435ux43dux438ux435-ux447ux430ux441ux442ux438ux446}
+
+Угловую скорость каждой частицы можно найти с помощью системы уравнений:
+
+\[
+I_i \varepsilon_i = R_i \sum \frac{b}{R_i + R_j} F^f_{ij}, \quad \frac{d\omega_i}{dt} = \varepsilon_i
+\]
+
+Где момент инерции определяется как:
+
+\[
+I_i = \frac{2}{5} m_i R_i^2
+\]
+
+а энергия вращения:
+
+\[
+E_{\text{rot}} = \frac{I_i \omega_i^2}{2}
+\]
+
+Для системы, в которой есть сила трения, полная энергия не сохраняется,
+часть энергии в результате трения переходит в тепло. Энергию, перешедшую
+в тепло, можно найти в виде разности начальной и текущей полной энергии.
+
+\subsection{3.5. Слипание
+частиц}\label{ux441ux43bux438ux43fux430ux43dux438ux435-ux447ux430ux441ux442ux438ux446}
+
+Возможно полное слипание пары частиц. В результате образуется одна,
+радиус которой вычисляется как:
+
+\begin{itemize}
+\tightlist
+\item
+  \(R = \sqrt[3]{R_i^3 + R_j^3}\)
+\end{itemize}
+
+Масса равна сумме масс слипшихся облаков:
+
+\begin{itemize}
+\tightlist
+\item
+  \(m = m_i + m_j\)
+\end{itemize}
+
+а координаты новой частицы вычисляются по формуле:
+
+\begin{itemize}
+\tightlist
+\item
+  \(\mathbf{r} = \frac{m_i \mathbf{r}_i + m_j \mathbf{r}_j}{m_i + m_j}\)
+\end{itemize}
+
+Аналогично вычисляется скорость:
+
+\begin{itemize}
+\tightlist
+\item
+  \(\mathbf{v} = \frac{m_i \mathbf{v}_i + m_j \mathbf{v}_j}{m_i + m_j}\)
+\end{itemize}
+
+Надо иметь ввиду, что при слипании частиц гравитационная энергия
+результирующей частицы не равна сумме гравитационных энергий исходных
+частиц. Тогда гравитационная энергия новой частицы:
+
+\[
+E_g = -\frac{\gamma m^2}{2R}
+\]
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section{4. Описание
+модели}\label{ux43eux43fux438ux441ux430ux43dux438ux435-ux43cux43eux434ux435ux43bux438}
+
+\subsection{4.1. Двумерная модель с центральным
+притяжением}\label{ux434ux432ux443ux43cux435ux440ux43dux430ux44f-ux43cux43eux434ux435ux43bux44c-ux441-ux446ux435ux43dux442ux440ux430ux43bux44cux43dux44bux43c-ux43fux440ux438ux442ux44fux436ux435ux43dux438ux435ux43c}
+
+На первом этапе моделируется движение частиц в плоскости под действием
+центральной неподвижной массы. Частицы движутся по орбитам с первой
+космической скоростью, не взаимодействуя друг с другом.
+
+\subsection{4.2. Введение гравитации и
+отталкивания}\label{ux432ux432ux435ux434ux435ux43dux438ux435-ux433ux440ux430ux432ux438ux442ux430ux446ux438ux438-ux438-ux43eux442ux442ux430ux43bux43aux438ux432ux430ux43dux438ux44f}
+
+Убирается центральная точка, вводится гравитационное взаимодействие
+между частицами. При сближении частиц на расстояние, меньшее суммы
+радиусов, включается сила отталкивания. Контролируется полный импульс
+системы (должен быть равен нулю). На экран выводятся кинетическая и
+потенциальная энергии.
+
+\subsection{4.3. Учёт
+вращения}\label{ux443ux447ux451ux442-ux432ux440ux430ux449ux435ux43dux438ux44f}
+
+Добавляются угловые скорости вращения частиц вокруг собственной оси.
+Вводится сила трения.
+
+\subsection{4.4. Трёхмерная
+модель}\label{ux442ux440ux451ux445ux43cux435ux440ux43dux430ux44f-ux43cux43eux434ux435ux43bux44c}
+
+Моделирование переносится в трёхмерное пространство. Выводятся проекции
+движения на плоскости \(XY\),\(XZ\),\(YZ\). Строятся графики зависимости
+энергий от времени.
+
+\subsection{4.5. Слипание
+частиц}\label{ux441ux43bux438ux43fux430ux43dux438ux435-ux447ux430ux441ux442ux438ux446-1}
+
+В трёхмерной модели вводится механизм слипания частиц при их сближении.
+Сохраняются масса и импульс системы.
+
+\subsection{4.6. Трение и диссипация
+энергии}\label{ux442ux440ux435ux43dux438ux435-ux438-ux434ux438ux441ux441ux438ux43fux430ux446ux438ux44f-ux44dux43dux435ux440ux433ux438ux438}
+
+Вводится сила трения. Анализируется поведение кинетической и
+потенциальной энергии. Часть энергии переходит в тепло.
+
+\subsection{4.7. Частицы разных
+сортов}\label{ux447ux430ux441ux442ux438ux446ux44b-ux440ux430ux437ux43dux44bux445-ux441ux43eux440ux442ux43eux432}
+
+Вводятся частицы двух типов с разной массой и радиусом. Добавляется
+трение. Выводится график энергии, переходящей в тепло. Затем массы и
+радиусы задаются случайным образом.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\section{5.
+Заключение}\label{ux437ux430ux43aux43bux44eux447ux435ux43dux438ux435}
+
+В результате выполнения работы было исследовано образование планетной
+системы, изучены формулы для построения численной модели формирования
+планетной системы из газопылевого облака. Модель включает гравитационное
+взаимодействие, силы отталкивания и трения, вращение и слипание частиц.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\chapter{Выводы}\label{ux432ux44bux432ux43eux434ux44b}
+
+Нами было произведено исследование для численного моделирования
+образования планетной системы из газопылевого облака с использованием
+методов молекулярной динамики, гравитационного взаимодействия, сил
+трения и слипания частиц.
+
+\chapter*{Список
+литературы}\label{ux441ux43fux438ux441ux43eux43a-ux43bux438ux442ux435ux440ux430ux442ux443ux440ux44b}
+\addcontentsline{toc}{chapter}{Список литературы}
+
+\begin{itemize}
+\tightlist
+\item
+  Медведев Д. А. - Моделирование физических процессов и явлений.
+\end{itemize}
+
+\printbibliography[heading=none]
+
+
+
+
+
+\end{document}
