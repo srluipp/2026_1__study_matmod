@@ -153,6 +153,30 @@ end
     
 Получение списка активных частиц
 """
-function get_active_particles(particles::Vector{Particle})
-    return [p for p in particles if p.active]
+function check_and_merge!(particles, merge_distance)
+    merge_count = 0  # Счетчик слияний
+    i = 1
+    while i <= length(particles)
+        j = i + 1
+        while j <= length(particles)
+            if particles[i].active && particles[j].active
+                dist = norm(particles[i].r - particles[j].r)
+                if dist < merge_distance
+                    # Слияние
+                    merged = merge_particles(particles[i], particles[j])
+                    particles[i] = merged
+                    deleteat!(particles, j)
+                    merge_count += 1
+                    continue  # Повторяем проверку для i (так как список изменился)
+                end
+            end
+            j += 1
+        end
+        i += 1
+    end
+    return merge_count  # Возвращаем количество слияний
 end
+
+
+
+

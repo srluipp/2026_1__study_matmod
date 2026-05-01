@@ -67,6 +67,26 @@ function run_task1()
     steps = 2000     # 20 лет симуляции
     M_center = 1.0   # Масса центральной звезды (1 солнечная масса)
     
+    # Объявляем plots_dir до try-catch
+    plots_dir = ""
+
+    # Надежное создание директории для графиков
+    try
+        # Базовая директория проекта
+        base_dir = "/home/srluipp/work/study/2026-1/2026-1==study--mathmod/2026_1__study_matmod/project-group/stage03/project"
+        plots_dir = joinpath(base_dir, "plots")
+
+        # Создаем директорию, если она не существует
+        if !isdir(plots_dir)
+            mkdir(plots_dir)
+            println("  Создана директория для графиков: $plots_dir")
+        end
+    catch e
+        println("  Не удалось создать директорию для графиков: $e")
+        println("  Графики будут сохранены в текущей директории")
+        plots_dir = ""
+    end
+    
     # Используем нормированную G
     global G = G_NORM
     
@@ -102,7 +122,7 @@ function run_task1()
             Ek, _ = kinetic_energy(particles)
             println("  t = $(step*dt): Ek = $Ek")
         end
-    end
+        end
     
     # Визуализация траекторий
     plt = plot(xlabel="x", ylabel="y", title="Задание 1: Орбиты частиц", legend=false)
@@ -112,6 +132,21 @@ function run_task1()
         plot!(plt, xs, ys, alpha=0.6)
     end
     scatter!(plt, [0], [0], markersize=8, color=:red, label="Центр")
+    
+  
+    # Сохранение графика
+    try
+        if isempty(plots_dir)
+            savefig(plt, "task1_trajectories.png")
+            println("  График сохранён в текущей директории: task1_trajectories.png")
+        else
+            full_path = joinpath(plots_dir, "task1_trajectories.png")
+            savefig(plt, full_path)
+            println("  График сохранён в: $full_path")
+        end
+    catch e
+        println("  Ошибка сохранения графика: $e")
+    end
     
     display(plt)
     println("  Задание 1 завершено")
@@ -129,6 +164,23 @@ function run_task2()
     steps = 1000
     
     global G = G_NORM
+    
+    
+    plots_dir = ""
+    try
+        base_dir = "/home/srluipp/work/study/2026-1/2026-1==study--mathmod/2026_1__study_matmod/project-group/stage03/project"
+        plots_dir = joinpath(base_dir, "plots")
+
+        if !isdir(plots_dir)
+            mkdir(plots_dir)
+            println("  Создана директория для графиков: $plots_dir")
+        end
+    catch e
+        println("  Не удалось создать директорию для графиков: $e")
+        println("  Графики будут сохранены в текущей директории")
+        plots_dir = ""
+    end
+
     
     particles = generate_disk_particles_2d(N, r0, 1.0)
     
@@ -184,6 +236,44 @@ function run_task2()
         display(p2)
     end
     
+    # Сохранение первого графика
+    try
+        if isempty(plots_dir)
+            savefig(p1, "task2_final_state.png")
+            println("  График конечного состояния сохранён в текущей директории")
+        else
+            full_path = joinpath(plots_dir, "task2_final_state.png")
+            savefig(p1, full_path)
+            println("  График конечного состояния сохранён в: $full_path")
+        end
+    catch e
+        println("  Ошибка сохранения графика конечного состояния: $e")
+    end
+
+    display(p1)
+
+    if length(time_history) > 0
+        println("  Отображение графиков энергий...")
+        p2 = plot_energies(time_history, Ek_history, Ep_history, Float64[],
+                          "Задание 2: Энергии")
+
+        # Сохранение второго графика
+        try
+            if isempty(plots_dir)
+                savefig(p2, "task2_energies.png")
+                println("  График энергий сохранён в текущей директории")
+            else
+                full_path = joinpath(plots_dir, "task2_energies.png")
+                savefig(p2, full_path)
+                println("  График энергий сохранён в: $full_path")
+            end
+        catch e
+            println("  Ошибка сохранения графика энергий: $e")
+        end
+
+        display(p2)
+    end
+    
     println("\n  Задание 2 завершено")
     
     return particles, time_history, Ek_history, Ep_history
@@ -204,6 +294,21 @@ function run_task3()
     N = 30
     
     particles = generate_disk_particles_2d(N, r0, M_CENTER)
+    
+    plots_dir = ""
+    try
+        base_dir = "/home/srluipp/work/study/2026-1/2026-1==study--mathmod/2026_1__study_matmod/project-group/stage03/project"
+        plots_dir = joinpath(base_dir, "plots")
+
+        if !isdir(plots_dir)
+            mkdir(plots_dir)
+            println("  Создана директория для графиков: $plots_dir")
+        end
+    catch e
+        println("  Не удалось создать директорию для графиков: $e")
+        println("  Графики будут сохранены в текущей директории")
+        plots_dir = ""
+    end
     
     # Задание начальных угловых скоростей
     for p in particles
@@ -230,6 +335,25 @@ function run_task3()
     
     display(plot_energies(time_history, Ek_history, zeros(length(time_history)), Erot_history,
                           "Задание 3: Кинетическая и вращательная энергия"))
+                          
+    # Создание графика энергий
+    p = plot_energies(time_history, Ek_history, zeros(length(time_history)), Erot_history,
+                     "Задание 3: Кинетическая и вращательная энергия")
+
+    # Сохранение графика
+    try
+        if isempty(plots_dir)
+            savefig(p, "task3_energies.png")
+            println("  График энергий сохранён в текущей директории")
+        else
+            full_path = joinpath(plots_dir, "task3_energies.png")
+            savefig(p, full_path)
+            println("  График энергий сохранён в: $full_path")
+        end
+    catch e
+        println("  Ошибка сохранения графика энергий: $e")
+    end
+
     
     println("  Задание 3 завершено")
     println("  Вращательная энергия составляет до 30% от поступательной\n")
@@ -248,6 +372,21 @@ function run_task4()
     r0 = 10.0
     dt = 0.0001
     steps = 4000
+    
+    plots_dir = ""
+    try
+        base_dir = "/home/srluipp/work/study/2026-1/2026-1==study--mathmod/2026_1__study_matmod/project-group/stage03/project"
+        plots_dir = joinpath(base_dir, "plots")
+
+        if !isdir(plots_dir)
+            mkdir(plots_dir)
+            println("  Создана директория для графиков: $plots_dir")
+        end
+    catch e
+        println("  Не удалось создать директорию для графиков: $e")
+        println("  Графики будут сохранены в текущей директории")
+        plots_dir = ""
+    end
     
     particles = generate_disk_particles_3d(N, r0, M_CENTER, 0.15)
     
@@ -274,8 +413,25 @@ function run_task4()
         end
     end
     
-    display(plot_energies(time_history, Ek_history, Ep_history, zeros(length(time_history)),
-                          "Задание 4: Энергии (3D модель)"))
+     # Создание графика энергий
+    p_energy = plot_energies(time_history, Ek_history, Ep_history, zeros(length(time_history)),
+                          "Задание 4: Энергии (3D модель)")
+
+    # Сохранение графика энергий
+    try
+        if isempty(plots_dir)
+            savefig(p_energy, "task4_energies.png")
+            println("  График энергий сохранён в текущей директории")
+        else
+            full_path = joinpath(plots_dir, "task4_energies.png")
+            savefig(p_energy, full_path)
+            println("  График энергий сохранён в: $full_path")
+        end
+    catch e
+        println("  Ошибка сохранения графика энергий: $e")
+    end
+
+    display(p_energy)
     
     println("  Задание 4 завершено")
     println("  Полная энергия сохраняется, частицы движутся в 3D пространстве\n")
@@ -289,52 +445,111 @@ end
 function run_task5()
     println("\n--- Задание 5 ---")
     println("3D модель с возможностью слипания частиц")
-    
+
+    # Параметры модели
     N = 50
     r0 = 12.0
     dt = 0.0001
     max_steps = 15000
-    
+
+    # Надежное создание директории для графиков
+    plots_dir = ""
+    try
+        base_dir = "/home/srluipp/work/study/2026-1/2026-1==study--mathmod/2026_1__study_matmod/project-group/stage03/project"
+        plots_dir = joinpath(base_dir, "plots", "task5")
+
+        if !ispath(plots_dir)
+            mkpath(plots_dir)
+            println("  Создана директория для графиков: $plots_dir")
+        end
+    catch e
+        println("  Не удалось создать директорию для графиков: $e")
+        println("  Графики будут сохранены в текущей директории")
+        plots_dir = ""
+    end
+
+    # Инициализация
     particles = generate_disk_particles_3d(N, r0, M_CENTER, 0.1)
-    
+    forces, torques, _ = compute_all_forces(particles, true, false)
+
+    # История для графиков
     time_history = Float64[]
     Ek_history = Float64[]
     N_history = Int[]
-    
-    forces, torques, _ = compute_all_forces(particles, true, false)
-    
+
+    # Основной цикл
     step = 0
+    merge_count = 0
+
     while step < max_steps && count_active(particles) > 1
+        # Шаг интегрирования
         forces, torques = velocity_verlet_step!(particles, forces, torques, dt, true, false)
-        
-        # Проверка слипания каждые 10 шагов
+
+        # Проверка слияний
         if step % 10 == 0
             merged = check_and_merge!(particles, 0.05)
             if merged > 0
-                println("  Слияние! Активных частиц: $(count_active(particles))")
-                # Пересчет сил после слияния
+                merge_count += merged
                 forces, torques, _ = compute_all_forces(particles, true, false)
             end
         end
-        
+
+        # Сохранение данных и визуализация
         if step % 500 == 0
             Ek, _ = kinetic_energy(particles)
             push!(time_history, step * dt)
             push!(Ek_history, Ek)
             push!(N_history, count_active(particles))
+
+            # Визуализация 3D проекций
+            p = plot_3d_projections(particles,
+                                  "Задание 5: Слияние - t = $(round(step*dt, digits=2))")
+
+            # Сохранение графика
+            try
+                if isempty(plots_dir)
+                    savefig(p, "task5_step$(step).png")
+                    println("  График сохранён в текущей директории")
+                else
+                    full_path = joinpath(plots_dir, "task5_step$(step).png")
+                    savefig(p, full_path)
+                    println("  График сохранён в: $full_path")
+                end
+            catch e
+                println("  Ошибка сохранения графика: $e")
+            end
+
+            display(p)
+
+            # Вывод информации
             println("  t = $(step*dt): N = $(count_active(particles)), Ek = $(round(Ek, digits=4))")
-            
-            display(plot_3d_projections(particles, "Задание 5: Слияние - t = $(round(step*dt, digits=2))"))
         end
-        
+
         step += 1
     end
-    
-    display(plot_particle_count(time_history, N_history, "Задание 5: Уменьшение числа частиц"))
-    
+
+    # Итоговая визуализация изменения числа частиц
+    p_final = plot_particle_count(time_history, N_history,
+                               "Задание 5: Изменение числа частиц")
+
+    # Сохранение итогового графика
+    try
+        if isempty(plots_dir)
+            savefig(p_final, "task5_particle_count.png")
+            println("  Итоговый график сохранён в текущей директории")
+        else
+            full_path = joinpath(plots_dir, "task5_particle_count.png")
+            savefig(p_final, full_path)
+            println("  Итоговый график сохранён в: $full_path")
+        end
+    catch e
+        println("  Ошибка сохранения итогового графика: $e")
+    end
+
+    display(p_final)
+
     println("  Задание 5 завершено")
-    println("  Исходно частиц: $N, осталось: $(count_active(particles))")
-    println("  Произошло $(N - count_active(particles)) слияний\n")
+    println("  Всего слияний: $merge_count")
 end
 
 """
@@ -345,59 +560,110 @@ end
 function run_task6()
     println("\n--- Задание 6 ---")
     println("Полная модель с гравитацией, отталкиванием и трением")
-    
+
+    # Параметры модели
     N = 35
     r0 = 10.0
     dt = 0.00001
     steps = 8000
-    
+
+    # Надежное создание директории для графиков
+    plots_dir = ""
+    try
+        base_dir = "/home/srluipp/work/study/2026-1/2026-1==study--mathmod/2026_1__study_matmod/project-group/stage03/project"
+        plots_dir = joinpath(base_dir, "plots", "task6")
+
+        if !ispath(plots_dir)
+            mkpath(plots_dir)
+            println("  Создана директория для графиков: $plots_dir")
+        end
+    catch e
+        println("  Не удалось создать директорию для графиков: $e")
+        println("  Графики будут сохранены в текущей директории")
+        plots_dir = ""
+    end
+
+    # Инициализация частиц
     particles = generate_disk_particles_2d(N, r0, M_CENTER)
-    
+
     # Начальные угловые скорости
     for p in particles
         p.ω = [0.0, 0.0, (rand() - 0.5) * 5.0]
     end
-    
+
     # Начальная полная энергия
     Ek0, Erot0 = kinetic_energy(particles)
     _, _, Ep0 = compute_all_forces(particles, true, true)
     E0 = Ek0 + Erot0 + Ep0
-    
+
     println("  Начальная энергия: E0 = $E0")
-    
+
+    # История для графиков
     time_history = Float64[]
     Ek_history = Float64[]
     Erot_history = Float64[]
     Ep_history = Float64[]
     Q_history = Float64[]
-    
+
     forces, torques, Ep = compute_all_forces(particles, true, true)
-    
+
     for step in 1:steps
         forces, torques = velocity_verlet_step!(particles, forces, torques, dt, true, true)
-        
+
         if step % 200 == 0
             Ek, Erot = kinetic_energy(particles)
             _, _, Ep = compute_all_forces(particles, true, true)
             E_current = Ek + Erot + Ep
             Q = E0 - E_current
-            
+
             push!(time_history, step * dt)
             push!(Ek_history, Ek)
             push!(Erot_history, Erot)
             push!(Ep_history, Ep)
             push!(Q_history, Q)
-            
+
             println("  t = $(step*dt): E = $(round(E_current, digits=4)), Q = $(round(Q, digits=6))")
-            display(plot_2d_positions(particles, "Задание 6: t = $(round(step*dt, digits=2))"))
+
+            # Визуализация и сохранение позиций частиц
+            p_pos = plot_2d_positions(particles, "Задание 6: t = $(round(step*dt, digits=2))")
+            try
+                if isempty(plots_dir)
+                    savefig(p_pos, "task6_positions_step$(step).png")
+                else
+                    savefig(p_pos, joinpath(plots_dir, "task6_positions_step$(step).png"))
+                end
+            catch e
+                println("  Ошибка сохранения графика позиций: $e")
+            end
+            display(p_pos)
         end
     end
-    
-    display(plot_energies(time_history, Ek_history, Ep_history, Erot_history,
-                          "Задание 6: Эволюция энергий"))
-    display(plot_thermal_energy(time_history, Q_history, 
-                                "Задание 6: Диссипация энергии в тепло"))
-    
+
+    # Итоговые графики энергий и диссипации
+    p_energies = plot_energies(time_history, Ek_history, Ep_history, Erot_history,
+                              "Задание 6: Эволюция энергий")
+
+    p_thermal = plot_thermal_energy(time_history, Q_history,
+                                   "Задание 6: Диссипация энергии в тепло")
+
+    # Сохранение итоговых графиков
+    try
+        if isempty(plots_dir)
+            savefig(p_energies, "task6_energies.png")
+            savefig(p_thermal, "task6_thermal.png")
+            println("  Итоговые графики сохранены в текущей директории")
+        else
+            savefig(p_energies, joinpath(plots_dir, "task6_energies.png"))
+            savefig(p_thermal, joinpath(plots_dir, "task6_thermal.png"))
+            println("  Итоговые графики сохранены в $plots_dir")
+        end
+    catch e
+        println("  Ошибка сохранения итоговых графиков: $e")
+    end
+
+    display(p_energies)
+    display(p_thermal)
+
     println("\n  Объяснение:")
     println("  - Кинетическая энергия постепенно уменьшается из-за трения")
     println("  - Потенциальная энергия флуктуирует при сближении частиц")
@@ -405,6 +671,7 @@ function run_task6()
     println("  - Система стремится к более плотной конфигурации")
     println("  Задание 6 завершено\n")
 end
+
 
 """
     run_task7()
@@ -414,53 +681,72 @@ end
 function run_task7()
     println("\n--- Задание 7 ---")
     println("Моделирование частиц двух сортов с разными массами")
-    
+
+    # Параметры модели
     N = 40
     r0 = 12.0
     dt = 0.00005
     steps = 10000
     light_fraction = 0.5
     mass_ratio = 4.0  # Тяжелые частицы в 4 раза массивнее легких
-    
+
+    # Надежное создание директории для графиков
+    plots_dir = ""
+    try
+        base_dir = "/home/srluipp/work/study/2026-1/2026-1==study--mathmod/2026_1__study_matmod/project-group/stage03/project"
+        plots_dir = joinpath(base_dir, "plots", "task7")
+
+        if !ispath(plots_dir)
+            mkpath(plots_dir)
+            println("  Создана директория для графиков: $plots_dir")
+        end
+    catch e
+        println("  Не удалось создать директорию для графиков: $e")
+        println("  Графики будут сохранены в текущей директории")
+        plots_dir = ""
+    end
+
+    # Инициализация частиц
     particles = generate_two_mass_particles(N, r0, light_fraction, mass_ratio)
-    
+
     # Подсчет частиц разных сортов
     n_heavy = count(p -> p.m > 0.03, particles)
     n_light = N - n_heavy
     println("  Тяжелые частицы: $n_heavy, легкие: $n_light")
-    
+
     # Начальная энергия
     Ek0, Erot0 = kinetic_energy(particles)
     _, _, Ep0 = compute_all_forces(particles, true, true)
     E0 = Ek0 + Erot0 + Ep0
-    
+
+    # История для графиков
     time_history = Float64[]
     Ek_history = Float64[]
     Ep_history = Float64[]
     Q_history = Float64[]
-    
+
     forces, torques, Ep = compute_all_forces(particles, true, true)
-    
+
     for step in 1:steps
         forces, torques = velocity_verlet_step!(particles, forces, torques, dt, true, true)
-        
+
         if step % 500 == 0
             Ek, Erot = kinetic_energy(particles)
             _, _, Ep = compute_all_forces(particles, true, true)
             Q = E0 - (Ek + Erot + Ep)
-            
+
             push!(time_history, step * dt)
             push!(Ek_history, Ek)
             push!(Ep_history, Ep)
             push!(Q_history, Q)
-            
+
             println("  t = $(step*dt): Ek = $(round(Ek, digits=4)), Ep = $(round(Ep, digits=4)), Q = $(round(Q, digits=6))")
-            
+
             # Визуализация с разным цветом для частиц разной массы
             active = get_active_particles(particles)
             heavy = [p for p in active if p.m > 0.03]
             light = [p for p in active if p.m <= 0.03]
-            
+
             plt = scatter(xlabel="x", ylabel="y", title="Задание 7: Частицы разной массы")
             if !isempty(heavy)
                 scatter!(plt, [p.r[1] for p in heavy], [p.r[2] for p in heavy],
@@ -470,15 +756,47 @@ function run_task7()
                 scatter!(plt, [p.r[1] for p in light], [p.r[2] for p in light],
                         markersize=[p.R*80 for p in light], color=:blue, label="Легкие")
             end
+
+            # Сохранение графика позиций
+            try
+                if isempty(plots_dir)
+                    savefig(plt, "task7_positions_step$(step).png")
+                else
+                    savefig(plt, joinpath(plots_dir, "task7_positions_step$(step).png"))
+                end
+            catch e
+                println("  Ошибка сохранения графика позиций: $e")
+            end
+
             display(plt)
         end
     end
-    
-    display(plot_energies(time_history, Ek_history, Ep_history, zeros(length(time_history)),
-                          "Задание 7: Энергии для частиц двух сортов"))
-    display(plot_thermal_energy(time_history, Q_history,
-                                "Задание 7: Переход энергии в тепло"))
-    
+
+    # Итоговые графики энергий и диссипации
+    p_energies = plot_energies(time_history, Ek_history, Ep_history, zeros(length(time_history)),
+                              "Задание 7: Энергии для частиц двух сортов")
+
+    p_thermal = plot_thermal_energy(time_history, Q_history,
+                                   "Задание 7: Переход энергии в тепло")
+
+    # Сохранение итоговых графиков
+    try
+        if isempty(plots_dir)
+            savefig(p_energies, "task7_energies.png")
+            savefig(p_thermal, "task7_thermal.png")
+            println("  Итоговые графики сохранены в текущей директории")
+        else
+            savefig(p_energies, joinpath(plots_dir, "task7_energies.png"))
+            savefig(p_thermal, joinpath(plots_dir, "task7_thermal.png"))
+            println("  Итоговые графики сохранены в $plots_dir")
+        end
+    catch e
+        println("  Ошибка сохранения итоговых графиков: $e")
+    end
+
+    display(p_energies)
+    display(p_thermal)
+
     println("\n  Объяснение графика полной энергии:")
     println("  - Тяжелые частицы имеют больший гравитационный потенциал")
     println("  - При столкновениях легкие частицы легче отклоняются")
@@ -486,6 +804,7 @@ function run_task7()
     println("  - Со временем система стремится к равновесному состоянию")
     println("  Задание 7 завершено\n")
 end
+
 
 # Экспорт функций
 export run_task1, run_task2, run_task3, run_task4, run_task5, run_task6, run_task7

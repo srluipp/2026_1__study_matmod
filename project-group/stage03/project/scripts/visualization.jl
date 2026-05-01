@@ -2,6 +2,11 @@
 
 using Plots
 
+# Вспомогательная функция для фильтрации активных частиц
+function get_active_particles(particles::Vector{Particle})
+    return filter(p -> p.active, particles)
+end
+
 # Настройка стиля Plots
 Plots.default(linewidth=2, framestyle=:box, grid=true, gridalpha=0.3)
 
