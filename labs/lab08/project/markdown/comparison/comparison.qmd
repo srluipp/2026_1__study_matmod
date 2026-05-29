@@ -1,0 +1,47 @@
+```{julia}
+using DifferentialEquations, Plots
+
+a1_c1 = 0.061
+a2_c1 = 0.41
+b_c1 = 0.0056
+c2_c1 = 0.84
+
+a1_brand = 0.05
+a2_brand = 0.39
+b1_brand = 0.001
+b2_brand = 0.01
+
+
+function system1!(dM, M, p, t)
+    a1, a2, b, c2 = p
+    dM[1] = M[1] - a1 * M[1]^2 - b * M[1] * M[2]
+    dM[2] = c2 * M[2] - a2 * M[2]^2 - b * M[1] * M[2]
+end
+
+function system2!(dM, M, p, t)
+    a1, a2, b1, b2 = p
+    dM[1] = M[1] - a1 * M[1]^2 - b1 * M[1] * M[2]
+    dM[2] = 0.9 * M[2] - a2 * M[2]^2 - b2 * M[1] * M[2]
+end
+
+M0 = [3.3, 2.3]
+θspan = (0.0, 50.0)
+
+
+prob1 = ODEProblem(system1!, M0, θspan, [a1_c1, a2_c1, b_c1, c2_c1])
+sol1 = solve(prob1, Tsit5(), saveat=0.1)
+
+prob2 = ODEProblem(system2!, M0, θspan, [a1_brand, a2_brand, b1_brand, b2_brand])
+sol2 = solve(prob2, Tsit5(), saveat=0.1)
+
+
+plot(sol1, labels=["Фирма 1 (базовый)" "Фирма 2 (базовый)"], line=(:solid, 2), title="Сравнение динамики оборотных средств",
+     xlabel="Время θ", ylabel="Оборотные средства (млн руб.)", legend=:topright, dpi=300, size=(1000, 600))
+
+plot!(sol2, labels=["Фирма 1 (с брендом)" "Фирма 2 (с брендом)"], line=(:dash, 2))
+
+
+savefig("comparison_plot.png")
+println("Сравнительный график сохранён как 'comparison_plot.png'")
+```
+
